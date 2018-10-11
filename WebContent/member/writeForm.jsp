@@ -11,7 +11,7 @@
 </head>
 <body>
  <h1 align = "center">회원가입</h1>
- <form name = "writeForm" method = "post" a\ction = "write.jsp">
+ <form name = "writeForm" method = "post" action = "write.jsp">
   <table border = "1" align = "center" cellpadding = "5" cellspacing = "0" height = "10">
    <tr>
    	<td>이름</td>
@@ -75,7 +75,9 @@
    </tr>
  
    <tr>
-    <td rowspan = "3">주소</td> <td><input type = "text" name = "zipcode" id = "zipcode" size = "4" readonly><input type = "button" value = "우편번호검색"></td>
+    <td rowspan = "3">주소</td> <td><input type = "text" name = "zipcode" id = "zipcode" size = "4" readonly>
+    <input type = "button" value = "우편번호검색" id = "addr_search_button">
+    </td>
    </tr>
    
    <tr>

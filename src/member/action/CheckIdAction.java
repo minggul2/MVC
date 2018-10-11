@@ -12,7 +12,7 @@ public class CheckIdAction implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		
-		//아이디 세션받아옴
+		/*//아이디 세션받아옴
 		String id = request.getParameter("id");
 		System.out.println("아이디는 : "  + id);
 		
@@ -22,18 +22,29 @@ public class CheckIdAction implements CommandProcess{
 		boolean check = memberDAO.isExitsId(id);
 		System.out.println(check);
 		
-		request.setAttribute("id", id);
 		
 		
 		//응답
+		request.setAttribute("id", id);
 		if(check) {
 			return "/member/checkIdFail.jsp";
 		}else {
 			return "/member/checkIdOk.jsp";
 		}
+		*/
 		
 		
+		String id = request.getParameter("id");
 		
-	}
+		//DB
+		
+		MemberDAO memberDAO = MemberDAO.getInstance();
+		boolean check = memberDAO.isExitsId(id);
+		
+		if(check) 
+			return "exist";		//사용불가능 
+		else
+			return "not_exist";	//사용가능
 	
+	}
 }

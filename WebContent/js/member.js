@@ -3,35 +3,87 @@
 $(document).ready(function(){
 	var sId;
 	var newWindow = null;
+	var post_window;
 	
+	$('#addr_search_button').on('click', function(){
+		post_window = window.open("checkPost.do", "", "width=400 height=400 scrollbars=yes");
+		
+	});
 	
+	$('#child_post_search_button').on('click', function(){
+		var roadname = $('#roadname').val();
+		var sigungu = $('#sigungu').val();
+		var sido = $('select[name=sido]').val();
+		
+		alert(sido);
+		location.href = 'checkPost.do?sido='+sido+'&sigungu='+sigungu+'&roadname='+roadname;
+		
+	});
+	
+	//중복체크
 	$('#check').on('click', function(){
 		sId = $('#id').val();
 		
-		if(newWindow == null){
-			newWindow = window.open("checkId.do?id="+sId,"","width=300 height=100 location=yes");
-		}else {
-			if(newWindow.close() == false){
-				newWindow.focus();
-			}else{
+		$('#id_div').empty();
+		
+		if(sId == ''){
+			$('#id_div').html("먼저아이디를 입력하세요").css('color', 'magenta').css('font-size', '9pt').css('font-weight', 'bold');
+		}else{
+			$.ajax({
+				type : "POST",
+				url : "checkId.do",
+				data : {"id" : sId},
+				dataType : "text",
+				success : function(data){
+					alert(data);
+					data = data.trim();
+					alert(data);
+					if(data == 'exist'){
+						$('#id_div').html("사용 불가능한 아이디").css('color', 'red').css('font-size', '9pt');
+					}else if(data == 'not_exist'){
+						$('#id_div').html("사용가능한 아이디").css('color', 'blue').css('font-size', '9pt');
+					}
+				}
+				
+			});
+			
+		}
+		/*else{
+			if(newWindow == null){
 				newWindow = window.open("checkId.do?id="+sId,"","width=300 height=100 location=yes");
+			}else {
+				alert(typeof(newWindow));
+				if(typeof(newWindow) == 'undefined' || newWidnow.closed){
+					//newWindow.close() == false
+					alert("false");
+					newWindow.focus();
+				}else{
+					newWindow = window.open("checkId.do?id="+sId,"","width=300 height=100 location=yes");
+				}
 			}
+		}*/
+	});
+	
+	//자식창 중복체크 다시
+	$('#check_again').on('click', function(){
+		sId = $('#id_again').val();
+		if(sId==''){
+			$('#check_id_div').html("아이디를 입력하세요").css('color', 'red').css('font-size', '9pt');
+		}else{
+			var href = location.href = 'checkId.do?id='+sId;
 		}
 	});
 	
-	$('#check_again').on('click', function(){
-		sId = $('#id_again').val();
-		var href = location.href = 'checkId.do?id='+sId;
-		alert(href);
-	});
 	
-	
+	//중복체크에서 사용
 	$('#login_ok').on('click', '#use_id', function(){
 		$('form[name=writeForm] input[name=id]').val(sId);
 		sId = $('#id_able').val();
-		opener.writeForm.id.value = sId;
+		//opener.writeForm.id.value = sId;
+		$('#id', opener.writeForm).val(sId);
 		//$('form[name=writeForm] #pwd').focus();
-		opener.writeForm.pwd.focus();
+		$('#pwd', opener.writeForm).focus();
+		//opener.writeForm.pwd.focus();
 		window.close();
 	});
 	
@@ -42,6 +94,7 @@ $(document).ready(function(){
 		var pwd = $('#pwd').val();
 		var repwd = $('#repwd').val();
 		var idCheck = $('#idCheck').val();
+		
 		
 		$('#name_div').empty();
 		$('#id_div').empty();
@@ -61,8 +114,10 @@ $(document).ready(function(){
 		}else if(repwd == ''){
 			$('#repassword_div').html("재확인 비밀번호를 입력하세요").css('color', 'red').css('font-size', '9pt');
 			$('#repwd').focus();
-		}else if(idCheck == ''){
+		}else if($('#id').val() != sId){
 			$('#id_div').html("중복체크 하세요").css('color', 'red').css('font-size', '9pt');
+		}else{
+			$('#writeForm').submit();
 		}
 		
 		
@@ -89,39 +144,17 @@ $(document).ready(function(){
 	});
 	
 	
-	//회원정보수정 데이터 넣기
-	
-	//$('form[name=modifyForm] input[name=name]').val(${memberDTO.name} + "1");
-	//window.onload=function(){
-		//document.modifyForm.gender['<%=memberDTO.getGender()%>'].checked = true;
-		//document.modifyForm.email1.value = '<%=memberDTO.getEmail1()%>';
+	$('form[name=checkPostForm]').on('click', '.addressA', function(){
 		
-		/*
-		var email = '<%=memberDTO.getEmail2()%>';
+		//var zipcode = $('#addressA').parents().parents().children('td:eq(0)').text();
+		//var zipcode = $('#addressA').parent().prev().text();
+		var zipcode = $('.addressA:eq(0)').text();
+		var addr = $('.addressA:eq(1)').html();
 		
-		for(var i = 0; i < email2.length; i++){
-			if(document.modifyForm.email2.options[i].value == email){
-				document.modifyForm.email2.options[i].selected = true;							
-			}
-		}
+		$('#zipcode', opener.document).val(zipcode);
+		$('#addr1', opener.document).val(addr);
+		$('#addr2', opener.document).focus();
+		window.close();
 		
-		var tel1 = '<%=memberDTO.getTel1()%>';
-		
-		for(var i = 0; i< tel1.length; i++){
-			if(document.modifyForm.tel1.options[i].value == tel1){
-				document.modifyForm.tel1.options[i].selected = true;	
-			}
-		}getElementById 로 대체가능
-		*/
-		
-		
-		/*document.getElementById('email2').value = '<%=memberDTO.getEmail2() %>';
-		document.getElementById('tel1').value = '<%=memberDTO.getTel1() %>';
-		
-		document.modifyForm.tel2.value = '<%=memberDTO.getTel2()%>';
-		document.modifyForm.tel3.value = '<%=memberDTO.getTel3()%>';
-		document.modifyForm.zipcode.value = '<%=memberDTO.getZipcode()%>';
-		document.modifyForm.addr1.value = '<%=memberDTO.getAddr1()%>';
-		document.modifyForm.addr2.value = '<%=memberDTO.getAddr2()%>';*/
-		
+	});
 });
