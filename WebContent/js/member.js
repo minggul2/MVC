@@ -5,11 +5,47 @@ $(document).ready(function(){
 	var newWindow = null;
 	var post_window;
 	
+	//회원가입 이벤트
+	$('form[name=writeForm]').on('click', '#write_button', function(){
+		var name = $('#name').val();
+		var id = $('#id').val();
+		var pwd = $('#pwd').val();
+		var repwd = $('#repwd').val();
+		var idCheck = $('#idCheck').val();
+		
+		
+		$('#name_div').empty();
+		$('#id_div').empty();
+		$('#password_div').empty();
+		$('#repassword_div').empty();
+		
+		
+		if(name == ''){
+			$('#name_div').html("이름을 입력하세요").css('color', 'red').css('font-size', '9pt');
+			$('#name').focus();
+		}else if(id == ''){
+			$('#id_div').html("아이디를 입력하세요").css('color', 'red').css('font-size', '9pt');
+			$('#id').focus();
+		}else if(pwd == ''){
+			$('#password_div').html("비밀번호를 입력하세요").css('color', 'red').css('font-size', '9pt');
+			$('#pwd').focus();
+		}else if(repwd == ''){
+			$('#repassword_div').html("재확인 비밀번호를 입력하세요").css('color', 'red').css('font-size', '9pt');
+			$('#repwd').focus();
+		}else if($('#id').val() != sId){
+			$('#id_div').html("중복체크 하세요").css('color', 'red').css('font-size', '9pt');
+		}else{
+			$('form[name=writeForm]').submit();
+		}
+	});
+	
+	//우편 이벤트
 	$('#addr_search_button').on('click', function(){
 		post_window = window.open("checkPost.do", "", "width=400 height=400 scrollbars=yes");
 		
 	});
 	
+	//자식창에서 이벤트
 	$('#child_post_search_button').on('click', function(){
 		var roadname = $('#roadname').val();
 		var sigungu = $('#sigungu').val();
@@ -35,16 +71,13 @@ $(document).ready(function(){
 				data : {"id" : sId},
 				dataType : "text",
 				success : function(data){
-					alert(data);
 					data = data.trim();
-					alert(data);
-					if(data == 'exist'){
-						$('#id_div').html("사용 불가능한 아이디").css('color', 'red').css('font-size', '9pt');
-					}else if(data == 'not_exist'){
-						$('#id_div').html("사용가능한 아이디").css('color', 'blue').css('font-size', '9pt');
-					}
+					
+					if(data == '사용 불가능')
+						$('#id_div').html(data).css('color', 'red').css('font-size', '9pt').css('font-weight', 'bold');
+					else
+						$('#id_div').html(data).css('color', 'blue').css('font-size', '9pt').css('font-weight', 'bold');
 				}
-				
 			});
 			
 		}
@@ -88,40 +121,6 @@ $(document).ready(function(){
 	});
 	
 	
-	$('#join').on('click', function(){
-		var name = $('#name').val();
-		var id = $('#id').val();
-		var pwd = $('#pwd').val();
-		var repwd = $('#repwd').val();
-		var idCheck = $('#idCheck').val();
-		
-		
-		$('#name_div').empty();
-		$('#id_div').empty();
-		$('#password_div').empty();
-		$('#repassword_div').empty();
-		
-		
-		if(name == ''){
-			$('#name_div').html("이름을 입력하세요").css('color', 'red').css('font-size', '9pt');
-			$('#name').focus();
-		}else if(id == ''){
-			$('#id_div').html("아이디를 입력하세요").css('color', 'red').css('font-size', '9pt');
-			$('#id').focus();
-		}else if(pwd == ''){
-			$('#password_div').html("비밀번호를 입력하세요").css('color', 'red').css('font-size', '9pt');
-			$('#pwd').focus();
-		}else if(repwd == ''){
-			$('#repassword_div').html("재확인 비밀번호를 입력하세요").css('color', 'red').css('font-size', '9pt');
-			$('#repwd').focus();
-		}else if($('#id').val() != sId){
-			$('#id_div').html("중복체크 하세요").css('color', 'red').css('font-size', '9pt');
-		}else{
-			$('#writeForm').submit();
-		}
-		
-		
-	});
 	
 	//로그인 유효성검사
 	

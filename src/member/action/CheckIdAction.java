@@ -12,39 +12,22 @@ public class CheckIdAction implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		
-		/*//¾ÆÀÌµð ¼¼¼Ç¹Þ¾Æ¿È
 		String id = request.getParameter("id");
-		System.out.println("¾ÆÀÌµð´Â : "  + id);
+		
 		
 		//DB
 		
 		MemberDAO memberDAO = MemberDAO.getInstance();
 		boolean check = memberDAO.isExitsId(id);
-		System.out.println(check);
 		
 		
 		
-		//ÀÀ´ä
+		//ï¿½ï¿½ï¿½ï¿½
 		request.setAttribute("id", id);
 		if(check) {
 			return "/member/checkIdFail.jsp";
 		}else {
 			return "/member/checkIdOk.jsp";
 		}
-		*/
-		
-		
-		String id = request.getParameter("id");
-		
-		//DB
-		
-		MemberDAO memberDAO = MemberDAO.getInstance();
-		boolean check = memberDAO.isExitsId(id);
-		
-		if(check) 
-			return "exist";		//»ç¿ëºÒ°¡´É 
-		else
-			return "not_exist";	//»ç¿ë°¡´É
-	
 	}
 }

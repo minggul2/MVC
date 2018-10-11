@@ -11,7 +11,7 @@
 </head>
 <body>
  <h1 align = "center">회원가입</h1>
- <form name = "writeForm" method = "post" action = "write.jsp">
+ <form name = "writeForm" method = "post" action = "write.do">
   <table border = "1" align = "center" cellpadding = "5" cellspacing = "0" height = "10">
    <tr>
    	<td>이름</td>
@@ -89,7 +89,7 @@
    </tr>
    
    <tr align = "center">
-   	<td colspan = "2"><input type = "button" id = "join" value = "회원가입">
+   	<td colspan = "2"><input type = "button" id = "write_button" value = "회원가입">
    	<input type = "reset" value = "다시작성"></td>
    </tr>
    
